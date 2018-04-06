@@ -1,0 +1,19 @@
+NORMAL SUBJECT: N1
+
+Height: 170 cm
+Weight:56.7 kg
+sex:Female
+
+
+Frame rate: 69.9 Hz
+
+
+Gait events data
+
+toe off right1: 1
+Heel contact right1:28
+toe off right2: 70
+Heel contact right2:97
+
+
+	
