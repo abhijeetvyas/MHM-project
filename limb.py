@@ -34,7 +34,7 @@ class BodyPart:
         for i in range(1,self.sample-1):
             unfil[i] = (self.angle[i+1]-self.angle[i-1])/(BodyPart.time[i+1]-BodyPart.time[i-1])
             self.omega=filterdata(unfil,5)
-        return self.omega
+        return self.omegax
 
     def alpha(self): #j1 is joint angle dataframe #n is number of datapoints 
         BodyPart.omega(self)
