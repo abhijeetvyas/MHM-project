@@ -34,7 +34,7 @@ class BodyPart:
         for i in range(1,self.sample-1):
             unfil[i] = (self.angle[i+1]-self.angle[i-1])/(BodyPart.time[i+1]-BodyPart.time[i-1])
             self.omega=filterdata(unfil,5)
-        return self.omegax
+        return self.omega
 
     def alpha(self): #j1 is joint angle dataframe #n is number of datapoints 
         BodyPart.omega(self)
@@ -49,8 +49,8 @@ class BodyPart:
         for i in range(1,self.sample-1):
             unfil[0][i] = (self.proximal[0][i+1]-self.proximal[0][i-1])/(BodyPart.time[i+1]-BodyPart.time[i-1])
             unfil[1][i] = (self.proximal[1][i+1]-self.proximal[1][i-1])/(BodyPart.time[i+1]-BodyPart.time[i-1])
-        self.velProxim[0]=filterdata(unfil[0],5)
-        self.velProxim[1]=filterdata(unfil[1],5)
+        self.velProxim[0]=filterdata(unfil[0],5)/1000
+        self.velProxim[1]=filterdata(unfil[1],5)/1000
         return self.velProxim
     
     def accelProxim(self): #j1 is joint angle dataframe #n is number of datapoin

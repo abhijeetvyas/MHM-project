@@ -49,8 +49,8 @@ class BodyPart:
         for i in range(1,self.sample-1):
             unfil[0][i] = (self.proximal[0][i+1]-self.proximal[0][i-1])/(BodyPart.time[i+1]-BodyPart.time[i-1])
             unfil[1][i] = (self.proximal[1][i+1]-self.proximal[1][i-1])/(BodyPart.time[i+1]-BodyPart.time[i-1])
-        self.velProxim[0]=filterdata(unfil[0],5)
-        self.velProxim[1]=filterdata(unfil[1],5)
+        self.velProxim[0]=filterdata(unfil[0],5)/1000
+        self.velProxim[1]=filterdata(unfil[1],5)/1000
         return self.velProxim
     
     def accelProxim(self): #j1 is joint angle dataframe #n is number of datapoin
@@ -71,8 +71,8 @@ class BodyPart:
         for i in range(1,self.sample):
             unfil[0][i]=self.accelProxim[0][i]-(r*self.alpha[i]*math.sin(self.angle[i])+self.omega[i]*self.omega[i]*r*math.cos(self.angle[i]))
             unfil[1][i]=self.accelProxim[1][i]+r*self.alpha[i]*math.cos(self.angle[i])-self.omega[i]*self.omega[i]*r*math.sin(self.angle[i])
-        self.accelCoM[0]=filterdata(unfil[0],5)/1000
-        self.accelCoM[1]=filterdata(unfil[1],5)/1000
+        self.accelCoM[0]=filterdata(unfil[0],5)
+        self.accelCoM[1]=filterdata(unfil[1],5)
         return self.accelCoM    
 
     def Forces(self,R,M):
