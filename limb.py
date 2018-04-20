@@ -34,7 +34,7 @@ class BodyPart:
         for i in range(1,self.sample-1):
             unfil[i] = (self.angle[i+1]-self.angle[i-1])/(BodyPart.time[i+1]-BodyPart.time[i-1])
             self.omega=filterdata(unfil,5)
-        return self.omegax
+        return self.omega
 
     def alpha(self): #j1 is joint angle dataframe #n is number of datapoints 
         BodyPart.omega(self)
@@ -71,8 +71,8 @@ class BodyPart:
         for i in range(1,self.sample):
             unfil[0][i]=self.accelProxim[0][i]-(r*self.alpha[i]*math.sin(self.angle[i])+self.omega[i]*self.omega[i]*r*math.cos(self.angle[i]))
             unfil[1][i]=self.accelProxim[1][i]+r*self.alpha[i]*math.cos(self.angle[i])-self.omega[i]*self.omega[i]*r*math.sin(self.angle[i])
-        self.accelCoM[0]=filterdata(unfil[0],5)
-        self.accelCoM[1]=filterdata(unfil[1],5)
+        self.accelCoM[0]=filterdata(unfil[0],5)/1000
+        self.accelCoM[1]=filterdata(unfil[1],5)/1000
         return self.accelCoM    
 
     def Forces(self,R,M):
@@ -88,7 +88,15 @@ def Power(omega1,omega2,M):
     power=np.multiply(Jw,M)
     return power
     
-    
+def aCoM(m1,a1,m2,a2,m3,a3,m4,a4):
+    acom=[np.zeros(106),np.zeros(106)]
+    F=[np.zeros(106),np.zeros(106)]
+    for i in range(0,2):
+        for j in range(0,106):
+            acom[i][j]=(m1*a1[i][j]+m2*a2[i][j]+m3*a3[i][j]+m4*a4[i][j])/(m1+m2+m3+m4)
+            F[i][j]=(m1+m2+m3+m4)*(9.81+acom[i][j])
+    return F
+
 def filterdata(y,n):
     from scipy.signal import filtfilt
     b = [1.0 / n] * n
