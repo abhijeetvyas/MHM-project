@@ -97,9 +97,9 @@ def filterdata(y,n):
     return yy;
 
 def AnthroData(weight,height):
-    data=np.zeros(15)
+    data=np.zeros(19)
     misc= (7.8*9.6*9.6*49.5)+(46.84*31.6*31.6*50.3)+2*(2.7*16.4*16.4*32.3)+2*(2.7*13.7*13.7*30.3)+2*(0.6*8.2*8.2*29.7) #sum of Icm of all the upper body parts
-    data[0]= weight*67.2/100 #weight of UB
+    data[0]= weight*68.2/100 #weight of UB
     data[1]= height*14.2/100 #height of com of UB from hip 
     data[2]= data[0]*data[1]*data[1]+misc #moment for UB
     data[3]= weight*9.9/100#weight of thigh
@@ -110,8 +110,12 @@ def AnthroData(weight,height):
     data[8]= height*23.3/100#height of shank
     data[9]= data[8]*43/100 #height of com shank
     data[10]= data[7]*data[8]*data[8]*30.2/100 #moment of shank
-    data[11]= weight*1.4/100#weight of foot
-    data[12]= height*11.7/100 #height of foot
+    data[11]= weight*(1.4-0.361)/100#weight of foot
+    data[12]= height*(11.7-3.53)/100 #height of foot
     data[13]= data[12]*50/100 #height of com foot
     data[14]= data[11]*data[12]*data[12]*47.5/100 #moment of foot
+    data[15]=weight*.361/100 #weight of toe
+    data[16]=height*3.53/100 #height of toe
+    data[17]=data[16]/2 #height of com of toe
+    data[18]=data[15]*data[16]*data[16]/12 #moment of toe
     return data
