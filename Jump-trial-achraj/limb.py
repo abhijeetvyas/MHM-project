@@ -4,8 +4,8 @@ import matplotlib.pyplot as plt
 import math
 
 class BodyPart:
-    time=[]
-    def __init__(self, length,mass, CoM, Inertia,distal,proximal):
+    def __init__(self, length,mass, CoM, Inertia,distal,proximal,time):
+        self.time=time
         self.sample=len(distal[0])
         self.length=length
         self.CoM=CoM
@@ -32,7 +32,7 @@ class BodyPart:
         unfil=np.zeros(self.sample)
         BodyPart.absangle(self)
         for i in range(1,self.sample-1):
-            unfil[i] = (self.angle[i+1]-self.angle[i-1])/(BodyPart.time[i+1]-BodyPart.time[i-1])
+            unfil[i] = (self.angle[i+1]-self.angle[i-1])/(self.time[i+1]-self.time[i-1])
             self.omega=filterdata(unfil,5)
         return self.omega
 
@@ -40,15 +40,15 @@ class BodyPart:
         BodyPart.omega(self)
         unfil=np.zeros(self.sample)
         for i in range(1,self.sample-1):
-            unfil[i] = (self.omega[i+1]-self.omega[i-1])/(BodyPart.time[i+1]-BodyPart.time[i-1])
+            unfil[i] = (self.omega[i+1]-self.omega[i-1])/(self.time[i+1]-self.time[i-1])
             self.alpha=filterdata(unfil,5)
         return self.alpha
 
     def velProxim(self): #j1 is joint angle dataframe #n is number of datapoints 
         unfil=[np.zeros(self.sample),np.zeros(self.sample)]
         for i in range(1,self.sample-1):
-            unfil[0][i] = (self.proximal[0][i+1]-self.proximal[0][i-1])/(BodyPart.time[i+1]-BodyPart.time[i-1])
-            unfil[1][i] = (self.proximal[1][i+1]-self.proximal[1][i-1])/(BodyPart.time[i+1]-BodyPart.time[i-1])
+            unfil[0][i] = (self.proximal[0][i+1]-self.proximal[0][i-1])/(self.time[i+1]-self.time[i-1])
+            unfil[1][i] = (self.proximal[1][i+1]-self.proximal[1][i-1])/(self.time[i+1]-self.time[i-1])
         self.velProxim[0]=filterdata(unfil[0],5)/1000
         self.velProxim[1]=filterdata(unfil[1],5)/1000
         return self.velProxim
@@ -57,8 +57,8 @@ class BodyPart:
         BodyPart.velProxim(self)
         unfil=[np.zeros(self.sample),np.zeros(self.sample)]
         for i in range(1,self.sample-1):
-            unfil[0][i] = (self.velProxim[0][i+1]-self.velProxim[0][i-1])/(BodyPart.time[i+1]-BodyPart.time[i-1])
-            unfil[1][i] = (self.velProxim[1][i+1]-self.velProxim[1][i-1])/(BodyPart.time[i+1]-BodyPart.time[i-1])
+            unfil[0][i] = (self.velProxim[0][i+1]-self.velProxim[0][i-1])/(self.time[i+1]-self.time[i-1])
+            unfil[1][i] = (self.velProxim[1][i+1]-self.velProxim[1][i-1])/(self.time[i+1]-self.time[i-1])
         self.accelProxim[0]=filterdata(unfil[0],5)
         self.accelProxim[1]=filterdata(unfil[1],5)
         return self.accelProxim
